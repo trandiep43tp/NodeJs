@@ -1,5 +1,4 @@
 var http =require("http"); //gọi module http
-
 //khởi tạo một con server
 http.createServer(function(req,res){   //req là yêu cầu khách gửi lên, res là dữ liệu trả về
 		res.writeHead(200,{"Content-Type":"text/plain"});  //nếu truyền trang web thì plain thay bằng 
