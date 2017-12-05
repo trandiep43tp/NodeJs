@@ -1,0 +1,23 @@
+Cách cài server
+//cài package.json
+1. tạo thư mục server
+2. mở git bash here của thư mục vừa tạo
+3. đánh dòng lệnh npn init để cài package.json
+
+
+//cài express
+express dùng để built ra html và các xử lý
+1. mở gitbash here lên
+2. đánh câu lệnh npn instatll express
+
+//cách sử dụng post có tham số
+1. cài module body paser. vào https://www.npmjs.com/package/body-parser xem hướng dẫn
+	a. mở git bash here
+	b. đánh câu lệnh: npm install body-parser
+	c tạo biến: var bodyParser = require('body-parser');
+	
+	
+//do phương thức send chỉ trả về một dòng. do vậy khi tải về toàn bộ trang web thì làm sao?
+====> sử dụng EJS Template Engine để tải về.
+cách cài EJS Template Engine:
+a. đánh câu lệnh npm install ejs	
