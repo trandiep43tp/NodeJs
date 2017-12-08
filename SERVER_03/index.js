@@ -24,6 +24,7 @@ app.post("/hello", function(req, res){
 
 //cài module bodyparser
  var bodyParser = require('body-parser');
+ //var bodyparser=require("body-parser").json();
  // create application/x-www-form-urlencoded parser
  var urlencodedParser = bodyParser.urlencoded({ extended: false });
  
@@ -33,8 +34,13 @@ app.post("/login",urlencodedParser, function(req,res){
 		var pass = req.body.password;
 		res.send("User name: "+ user + " Pass: " + pass);	
 	});
-	
-	
+/*	
+app.post("/form",bodyparser,function(req,res){
+	var user = req.body.username;
+	var pass = req.body.password;
+	res.send("User name: "+ user + " Pass: " + pass);
+});
+*/	
 	
 	//cấu hình ejs
 	app.set("view engine", "ejs");  //khai báo template engine
