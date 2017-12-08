@@ -21,3 +21,6 @@ express dùng để built ra html và các xử lý
 ====> sử dụng EJS Template Engine để tải về.
 cách cài EJS Template Engine:
 a. đánh câu lệnh npm install ejs	
+
+//cách để tải file, hình ảnh lên server
+a. cài multer. đánh câu lệnh npm install multer

@@ -11,3 +11,4 @@ ban d?u t?o file package.json có n?i dung
 
 sau dó mo git bash here cua thu muc len
 chay lenh npm install. may se cai express
+https://www.youtube.com/watch?v=YjVp1Vewcew

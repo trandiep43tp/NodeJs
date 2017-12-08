@@ -1,7 +1,7 @@
 // JavaScript Document
 var express= require("express");
 var app=express();
-app.listen(3000);
+app.listen(3000,console.log("Ket noi thanh cong"));
 
 //phương thức get
 app.get("/hello", function(req,res){
@@ -56,4 +56,31 @@ app.post("/form",bodyparser,function(req,res){
 	app.get("/bai2/:x", function(req,res){
 		var x=req.params.x;
 		res.render("bai2",{name:"Tran Diep",x:x,namsinh:[1987,1988,1989,1990]});
+	});
+
+	//cách đẩy hình ảnh lên server
+	//khai báo multer
+	var multer= require("multer");
+	//khai báo nơi lưu trữ file tải lên
+	var storage=multer.diskStorage({
+		destination:function(req,file,cb){  //biến cb là để kiểm tra xem có chấp nhận lưu trữ file hay k
+			 cb(null,"./upload")
+			 },
+		filename: function(req,file,cb){  
+			cb(null, file.originalname) 
+		}
+	})
+
+	//khai báo biến upload
+	var upload=multer({ storage: storage })
+	//cách tai từng file
+	app.post("/bai3",upload.single("file"),function(req,res){  //file là tên được khai báo trong input
+		console.log(req.file);
+		res.render("bai3",{info: "UPLOAD FILE THANH CONG"});
+	});   
+
+
+	app.get("/bai3", function(req,res){
+		res.render("bai3",{info: ""});
+
 	});
