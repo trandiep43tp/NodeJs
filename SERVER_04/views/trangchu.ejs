@@ -12,16 +12,18 @@
     //goi điện lên server
     var socket=io("http://localhost:3000/");
 
+     //client nhận dữ lieu từ server
+     socket.on("server-send-data", function(data){
+            $("#kq").append(data + ", ");
+        });
+        
     $(document).ready(function(){
       $("#mrA").click(function(){
            //gui thong tin len server
            socket.emit("client-send-data", "HELLO");  //send-data là do mình đặt           
        });
 
-        //client nhận dữ lieu từ server
-        socket.on("server-send-data", function(data){
-            $("#kq").append(data + ", ");
-        });
+       
     });
 </script>   
 
