@@ -1,1 +1,8 @@
-body{background-color: yellow}
+body{background-color: #b6bdc6}
+#wrapper{width: 600px; margin: auto}
+#left{ width: 30%; float: left;background-color: #8ff442}
+#right{width: 70%; float: right; background-color:#d8c268}
+#boxTitle{ border: solid 1 black; padding: 5px; text-align: center; font-weight: bold}
+#boxContent{ border: solid 1 black; border-top: none; padding: 5px; text-align: center}
+#sayHi{text-align: right}
+#listMessage{height: 200px; background-color: #68d8bf}
