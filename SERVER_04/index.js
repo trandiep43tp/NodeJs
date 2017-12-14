@@ -32,7 +32,7 @@ io.on("connect", function(socket){                                   //chú ý l
         //io.sockets.emit("server-send-data", data + "888");
 
         //server gửi lại cho các client trừ client gửi lên
-        socket.broadcast.emit();
+        socket.broadcast.emit("server-send-data", data + "888");
         
         //server gửi riêng cho 1 client nào đó
         //io.to(socket.id).emit("server-send-data", data + "888");
