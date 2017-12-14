@@ -12,6 +12,9 @@ var server=require("http").createServer(app);
 var io=require("socket.io")(server);
 server.listen(3000);
 
+//khai báo 1 mảng chứa danh sách
+var listUser=[];
+
 //viết code lắng nghe xem có ai kết nối lên server hay không
 io.on("connect", function(socket){                                   //chú ý là connection
     console.log("Co nguoi ket noi: "+ socket.id);
@@ -22,9 +25,17 @@ io.on("connect", function(socket){                                   //chú ý l
     });    
 
     //nhận dữ liệu từ client
-    socket.on("client-send-data", function(data){
-        console.log(socket.id + " gui data: " + data);
-
+    socket.on("client-send-username", function(data){
+        console.log(socket.id + " gui name: " + data);
+        if(listUser.indexOf(data)>=0){              //ktra xem user có trong mảng không
+            socket.emit("server-send-user", "Ten Dang nhap bi trung");
+        }
+        else{
+            listUser.push(data);
+            socket.emit("server-send-ok",listUser);
+        }
+        
+        console.log(listUser);
         //server chỉ gửi lại cho chính client gui lên. 
         //socket.emit("server-send-data",data + "888");
 
@@ -32,7 +43,7 @@ io.on("connect", function(socket){                                   //chú ý l
         //io.sockets.emit("server-send-data", data + "888");
 
         //server gửi lại cho các client trừ client gửi lên
-        socket.broadcast.emit("server-send-data", data + "888");
+        //socket.broadcast.emit("server-send-data", data + "888");
         
         //server gửi riêng cho 1 client nào đó
         //io.to(socket.id).emit("server-send-data", data + "888");
