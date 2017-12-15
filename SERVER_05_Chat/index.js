@@ -28,15 +28,29 @@ io.on("connect", function(socket){                                   //chú ý l
     socket.on("client-send-username", function(data){
         console.log(socket.id + " gui name: " + data);
         if(listUser.indexOf(data)>=0){              //ktra xem user có trong mảng không
-            socket.emit("server-send-user", "Ten Dang nhap bi trung");
+            socket.emit("server-send-dk-thatbai");
         }
         else{
             listUser.push(data);
-            socket.emit("server-send-ok",listUser);
-        }
-        
-        console.log(listUser);
-        //server chỉ gửi lại cho chính client gui lên. 
+            socket.username=data;                               //tạo thêm một trường socket.username
+            socket.emit("server-send-ok",data);                 //gửi ten dang nhap về chính client gưi lên
+            io.sockets.emit("server-send-listUser",listUser);   //gui danh sách các user đang dang nhap cho tát cả client
+        }                 
+    });
+
+    socket.on("client-send-logOut", function(){
+        listUser.splice(listUser.indexOf(socket.username), 1);  //tìm phan tử logout trong mảng roi xóa
+        socket.broadcast.emit("server-send-listUser",listUser);       //gửi lại danh sách user
+    });
+
+});
+
+app.get("/", function(req,res){
+    res.render("trangchu");
+});
+
+
+ //server chỉ gửi lại cho chính client gui lên. 
         //socket.emit("server-send-data",data + "888");
 
         //server gửi lại tất cả các client
@@ -47,11 +61,9 @@ io.on("connect", function(socket){                                   //chú ý l
         
         //server gửi riêng cho 1 client nào đó
         //io.to(socket.id).emit("server-send-data", data + "888");
-        
-    });
 
-});
 
-app.get("/", function(req,res){
-    res.render("trangchu");
-});
+
+
+
+
