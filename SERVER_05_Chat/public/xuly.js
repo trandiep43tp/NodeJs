@@ -2,7 +2,7 @@
 var socket=io("http://localhost:3000/");
 
 //client nhận dữ liệu từ server
-socket.on("server-send-user", function(data){
+socket.on("server-send-dk-thatbai", function(data){
      alert(data);
 });
 

@@ -28,7 +28,7 @@ io.on("connect", function(socket){                                   //chú ý l
     socket.on("client-send-username", function(data){
         console.log(socket.id + " gui name: " + data);
         if(listUser.indexOf(data)>=0){              //ktra xem user có trong mảng không
-            socket.emit("server-send-user", "Ten Dang nhap bi trung");
+            socket.emit("server-send-dk-thatbai", "Ten Dang nhap bi trung");
         }
         else{
             listUser.push(data);
