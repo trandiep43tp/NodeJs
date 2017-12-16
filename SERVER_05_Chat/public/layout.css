@@ -6,3 +6,4 @@ body{background-color: #b6bdc6}
 #boxContent{ border: solid 1 black; border-top: none; padding: 5px; text-align: center}
 #sayHi{text-align: right}
 #listMessage{height: 200px; background-color: #68d8bf}
+#listMessage >div>b {background-color: yellow }

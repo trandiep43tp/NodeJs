@@ -43,6 +43,10 @@ io.on("connect", function(socket){                                   //chú ý l
         socket.broadcast.emit("server-send-listUser",listUser);       //gửi lại danh sách user
     });
 
+    socket.on("client-sent-message" , function(data){
+        io.sockets.emit("server-send-message",{"name":socket.username, "nd": data});
+    })
+
 });
 
 app.get("/", function(req,res){

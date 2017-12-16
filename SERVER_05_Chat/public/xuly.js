@@ -2,8 +2,6 @@
 var socket=io("http://localhost:3000/");
 
 //client nhận dữ liệu từ server
-
-
 socket.on("server-send-dk-thatbai", function(){
      alert("Ten Bi Trung");
 });
@@ -22,13 +20,18 @@ socket.on("server-send-listUser", function(data){
     $("#boxContent").append('<div class="userOnline">' + i +'</div>');
   });
 
-})
+});
+
+socket.on("server-send-message", function(data){
+  $("#listMessage").append('<div><b>' + data.name + ": </b>"+ data.nd + '</div>');
+});
 
 
 $(document).ready(function(){
      //khi mới khởi tạo cho hiện form login và ẩn form chat form
      $("#loginForm").show();
-     $("#chatForm").hide();     
+     $("#chatForm").hide(); 
+     $("#txtMessage").focus();    
     
      //click nút login
      $("#btnLogin").click(function(){
@@ -42,7 +45,12 @@ $(document).ready(function(){
       $("#chatForm").hide(1000); 
       $("#loginForm").show(2000);
       $("#txtUsername").val("");
-      $("#txtUsername").focus();
-      
+      $("#txtUsername").focus();      
      })
-  });
+
+     $("#btnSendmessage").click(function(){
+       socket.emit("client-sent-message",$("#txtMessage").val());
+       $("#txtMessage").val("");
+       $("#txtMessage").focus();
+     })
+});
