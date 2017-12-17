@@ -45,6 +45,14 @@ io.on("connect", function(socket){                                   //chú ý l
 
     socket.on("client-sent-message" , function(data){
         io.sockets.emit("server-send-message",{"name":socket.username, "nd": data});
+    });
+
+    socket.on("ai-dang-go-chu", function(){
+        socket.broadcast.emit("dang-go-chu", socket.username + " dang go chu");
+    });
+
+    socket.on("ai-stop-go-chu", function(){
+        socket.broadcast.emit("stop-go-chu");       
     })
 
 });

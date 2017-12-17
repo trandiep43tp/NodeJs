@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tự Học Nodejs Chat</title>
+<link rel="stylesheet" type="text/css" href="layout.css" />
+<!--chèn botstrap-->
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css" />
+
+<script src="jquery-3.2.1.min.js"></script> 
+<script src="socket.io/socket.io.js"></script>
+<script src="xuly.js"></script> 
+</head>
+<body>
+    <div id="wrapper">
+        <h3>Tạo Room: </h3>
+        <input type="text" id="txtRoom" class="form-control" placeholder="tao room" /></br>
+        <button class="btn btn-primary" id="btnTaoroom">Tạo Room</button>
+        <div style="clear:both" ></div>
+        <div id="left">
+            <h5>Room Đang Có</h5>
+            <div id="listRoom"></div>
+        </div>
+         <h4 id="roomhientai">...</h4>
+        <div id="right">
+           <div id="message"></div>
+            <input type="text" id="txtMessage" />
+            <button id="btnGui">Gửi</button>
+        </div>
+        
+    </div>
+    
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

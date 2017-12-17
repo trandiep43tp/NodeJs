@@ -22,16 +22,25 @@ socket.on("server-send-listUser", function(data){
 
 });
 
+//láng nghe xem ai gui tin nhan
 socket.on("server-send-message", function(data){
   $("#listMessage").append('<div><b>' + data.name + ": </b>"+ data.nd + '</div>');
 });
 
+//lắng nghe xem ai dang gõ chữ
+socket.on("dang-go-chu", function(data){
+  $("#typping").html(data);
+});
+socket.on("stop-go-chu", function(){
+  $("#typping").html("");
+})
 
-$(document).ready(function(){
+$(document).ready(function(){  
      //khi mới khởi tạo cho hiện form login và ẩn form chat form
      $("#loginForm").show();
      $("#chatForm").hide(); 
-     $("#txtMessage").focus();    
+     $("#txtMessage").focus();   
+      
     
      //click nút login
      $("#btnLogin").click(function(){
@@ -52,5 +61,15 @@ $(document).ready(function(){
        socket.emit("client-sent-message",$("#txtMessage").val());
        $("#txtMessage").val("");
        $("#txtMessage").focus();
-     })
+     });
+
+     //làm trường hợp ai đang gõ chữ thì tông báo cho mọi người biết
+     $("#txtMessage").focusin(function(){
+       socket.emit("ai-dang-go-chu");
+     });
+
+     $("#txtMessage").focusout(function(){
+      socket.emit("ai-stop-go-chu");
+    });
+
 });
