@@ -1,3 +1,7 @@
+các bước để chạy được nodejs
+1. cài nodejs
+2.cài git 
+
 Cách cài server
 //cài package.json
 1. tạo thư mục server
