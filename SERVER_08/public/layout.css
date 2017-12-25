@@ -1,0 +1,6 @@
+body{ background-color: rgb(250, 153, 184)}
+#wrapper{width: 700px; margin: auto}
+#information{ border: solid 1px gray; margin: 10px; padding: 10px}
+#listuser{text-align: center}
+.hocvien{border-bottom: 1px solid burlywood; margin: 5px; padding: 5px}
+.hang1 span{color: blue; font-weight: bold}
