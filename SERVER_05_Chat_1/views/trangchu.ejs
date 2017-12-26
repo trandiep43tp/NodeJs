@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tự Học Nodejs Chat</title>
+<link rel="stylesheet" type="text/css" href="layout.css" />
+<!--chèn botstrap-->
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css" />
+
+<script src="jquery-3.2.1.min.js"></script> 
+<script src="socket.io/socket.io.js"></script>
+<script src="xuly.js"></script> 
+</head>
+<body>
+<div id="wrapper">
+    <div id="loginForm">
+        <h3>Nhập tên:</h3>
+        <input type="text" class="form-control" placeholder="ho ten" id="txtUsername" /><br>
+        <button class="btn btn-primary" id="btnLogin">Login</button>
+    </div>
+    <div id="chatForm">
+        <div id="left">
+            <div id="boxTitle">Users Online</div>
+            <div id="boxContent">
+                
+            </div>
+        </div>
+        <div id="right">
+            <div id="sayHi">
+                Hello <b><span id="curentUser" >Teo</span></b>
+                <button class="btn btn-primary" id="btnLogout">LogOut</button>
+            </div>
+            <div id="listMessage">
+
+            </div>
+            <div id="typping"> </div>
+            <input type="text" id="txtMessage" class="form-control" />
+            <button class="btn btn-success" id="btnSendmessage">SEND</button>            
+           
+        </div>
+    </div>
+</div> 
+
+
+
+
+
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
