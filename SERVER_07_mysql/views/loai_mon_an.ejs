@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tự Học Nodejs Chat</title>
+<link rel="stylesheet" type="text/css" href="layout.css" />
+<script src="jquery-3.2.1.min.js"></script>
+<script src="socket.io/socket.io.js"></script>
+<script src="xuly.js"></script> 
+</head>
+<body>
+ <!--   <div id="wrapper"> -->
+        <table width="900" border="0.5px" cellpadding="5" cellspacing="0" style="margin:auto">
+            <tr style="background-color:#0FF; color:#36F; text-align:center; height:30px">
+                <td width="50px">Mã loại Món</td>
+                <td width="100px">Tên loại Món</td>
+                <td>Mô tả</td>
+                <td width="150px">Hình</td>
+                <td width="50px">&nbsp;</td>
+                <td width="50px">&nbsp;</td>
+            </tr>
+           <% kq.forEach(function(i){ %>
+            <tr>
+                <td align="center"><%-i['ma_loai'] %></td>
+                <td><%-i['ten_loai'] %></td>
+                <td align="justify" style="padding:5px"><%-i['mo_ta'] %></td>
+                <td align="justify"><img src="images/hinh_loai_mon_an/<%-i['hinh']%>" width="60px" height="60px" style="margin-left:30px" ></td>
+                <td align="center"><a href="#">Sửa</a></td>
+                <td align="center"><a href="#" >Xóa</a></td>                
+            </tr>    
+            <% }) %>        
+        </table>
+<!--   </div>   --> 
+</body>
+</html>
