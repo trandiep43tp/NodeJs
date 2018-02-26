@@ -40,4 +40,4 @@ soket io giống như tổng đâì vina hay viettel nó dùng để kết nối
 2. kết nối mysql: var mysql = require("mysql");
 
 //cài các gói để bóc tách html
-gói request cheerio
+gói request và  cheerio
