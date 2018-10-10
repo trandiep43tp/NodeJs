@@ -18,7 +18,7 @@ socket.on("server-send-message", function(data){
 });
 
 
-
+ 
 $(document).ready(function(){  
    $("#btnTaoroom").click(function(){
       socket.emit("tao-room", $("#txtRoom").val());

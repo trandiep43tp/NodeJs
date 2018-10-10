@@ -1,7 +1,7 @@
 // JavaScript Document
 var express= require("express");
 var app=express();
-app.listen(3000,console.log("Ket noi thanh cong"));
+app.listen(3333,console.log("Ket noi thanh cong"));
 
 //phương thức get
 app.get("/hello", function(req,res){
@@ -20,7 +20,7 @@ app.get("/hello/:x/:y", function(req,res){
 app.post("/hello", function(req, res){
 	res.send("Day la phuong thuc post");
 	});
-//post có tham so
+//post có tham so 
 
 //cài module bodyparser
  var bodyParser = require('body-parser');

@@ -11,7 +11,7 @@ var io=require("socket.io")(server);
 server.listen(3000);
 
 var mang=[];
-
+ 
 //cấu hình io
 io.on("connect", function(socket){
     console.log("co nguoi ket noi"+ socket.id);

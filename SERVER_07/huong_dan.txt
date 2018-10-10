@@ -6,13 +6,13 @@ Cách cài server
 //cài package.json
 1. tạo thư mục server
 2. mở git bash here của thư mục vừa tạo
-3. đánh dòng lệnh npn init để cài package.json
+3. đánh dòng lệnh npm init để cài package.json
 
 
 //cài express
 express dùng để built ra html và các xử lý
 1. mở gitbash here lên
-2. đánh câu lệnh npn install express
+2. đánh câu lệnh npm install express
 
 //cách sử dụng post có tham số
 1. cài module body paser. vào https://www.npmjs.com/package/body-parser xem hướng dẫn

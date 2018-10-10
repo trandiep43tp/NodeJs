@@ -3,15 +3,19 @@ var app=express();
 
 app.use(express.static("public"));
 
+var cors = require('cors')
+app.use(cors()) // Use this after the variable declaration
+
+
 app.set("view engine", "ejs");
 app.set("views","./views");
 
 var server = require("http").createServer(app);
 var io=require("socket.io")(server);
-server.listen(3000);
+server.listen(3001);
 
 
-
+ 
 app.get("/loaimonan", function(req,res){
     var mysql= require("mysql");
     //cấu hình kết nối
@@ -20,7 +24,7 @@ app.get("/loaimonan", function(req,res){
         user    : 'root',
         password: '',
         database: 'ql_nha_hang'
-    });
+    }); 
     //kết nối
     conn.connect( function(err){
             //nếu có lỗi thì in ra
@@ -31,9 +35,15 @@ app.get("/loaimonan", function(req,res){
     //lấy dữ liệu từ mysql
     var sql="SELECT * FROM loai_mon_an";
     conn.query(sql, function(error,result){
-        if(error) throw error.stack;
-        //console.log(result);
-        res.render("loai_mon_an",{kq: result});        
+        if(error){
+            return res.send(error)
+        }else{
+            return res.json(result)
+        }
+
+        //res.render("loai_mon_an",{kq: result}); 
+        
+               
     });  
     //ngắt kết nối
     conn.end(function(err){

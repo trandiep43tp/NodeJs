@@ -1,0 +1,3 @@
+tạo thư muc
+Cài package: npm init
+npm install --save puppeteer

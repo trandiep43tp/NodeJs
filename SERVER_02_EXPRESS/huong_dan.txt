@@ -1,0 +1,7 @@
+//cài express
+express dùng để built ra html và các xử lý
+1. mở gitbash here lên
+2. đánh câu lệnh npn install express
+
+
+https://www.youtube.com/watch?v=YjVp1Vewcew

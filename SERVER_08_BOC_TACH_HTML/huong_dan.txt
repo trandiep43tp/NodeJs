@@ -1,6 +1,8 @@
 các bước để chạy được nodejs
 1. cài nodejs
 2.cài git 
+//cách chạy server
+vào thư mục chứa server -> mở gt bash here lên. Đánh câu lệnh node inđex
 
 Cách cài server
 //cài package.json
@@ -40,4 +42,4 @@ soket io giống như tổng đâì vina hay viettel nó dùng để kết nối
 2. kết nối mysql: var mysql = require("mysql");
 
 //cài các gói để bóc tách html
-gói request cheerio
+gói request cheerio, request

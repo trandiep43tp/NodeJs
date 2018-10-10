@@ -3,7 +3,7 @@
 var http = require("http");  //
 var fs= require("fs");   //moddun dọc file tren server
 
-//khởi tạo server
+//cách khởi tạo server
 /*
 http.createServer(function(req,res){
 	res.writeHead(200,{"Content-Type":"text/html"});

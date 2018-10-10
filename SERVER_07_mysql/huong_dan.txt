@@ -38,3 +38,9 @@ soket io giống như tổng đâì vina hay viettel nó dùng để kết nối
 //kết nối mysql
 1. cài module mysql: cần chạy dòng lệnh: npm i -s mysql
 2. kết nối mysql: var mysql = require("mysql");
+
+//cài cors
+npm install cors
+var cors = require('cors')
+
+app.use(cors()) // Use this after the variable declaration

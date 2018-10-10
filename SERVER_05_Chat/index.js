@@ -9,7 +9,7 @@ app.set("views","./views");
 
 var server=require("http").createServer(app);
 //khai báo socket.io
-var io=require("socket.io")(server);
+var io=require("socket.io")(server);  
 server.listen(3000);
 
 //khai báo 1 mảng chứa danh sách

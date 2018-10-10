@@ -12,7 +12,7 @@ app.listen(3000);
 //khai báo biến request
 var request = require("request");
 var cheerio = require("cheerio");
-
+  
 app.get("/", function(req,res){
     request("https://vnexpress.net", function(error, response,body){
         if(error){
@@ -25,13 +25,13 @@ app.get("/", function(req,res){
            //var ds= $(body).find("a.icon_commend"); //tìm thẻ a có class icon_commend. nếu tìm theo id thì viết a#icon_commend
            // không nên dung map và foreach để duyệt
            //console.log(ds);
-           /*
-           ds.each( function(i, e){
-               console.log(i);      //i là số thứ tự
-               //console.log($(this).text());
-               console.log(e["attribs"]["href"]);
-           })
-           */
+           
+        //    ds.each( function(i, e){
+        //        console.log(i);      //i là số thứ tự
+        //        console.log($(this).text());
+        //        console.log(e["attribs"]["href"]);
+        //    })
+           
            res.render("trangchu", {html: ds});
         }
     })   
