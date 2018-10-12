@@ -84,16 +84,7 @@
                                             <td> <%=item.name %> </td>
                                             <td>
                                                  <%- statusHelper('items', item.id, item.status) %>  <!--Cách kéo hàm vào -->
-                                                <!-- cách viết trực tiếp -->
-                                                <!-- <% if(item.status =="active"){ %>
-                                                    <a href="#">
-                                                        <span class="label label-success">active</span>
-                                                    </a>
-                                                <% } else if(item.status =="inactive"){ %>
-                                                        <a href="#">
-                                                        <span class="label label-warning">In active</span>
-                                                        </a>
-                                                <% } %>   -->
+                                               
                                                                                                 
                                             </td>
                                             <td><input type="number" value="<%=item.ordering %>" class="text-center ordering"></td>

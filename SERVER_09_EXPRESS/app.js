@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 //kéo các thứ hãng thứ 3 viêt
 var expressLayouts = require('express-ejs-layouts');
-
+ 
 // hiện thông báo
 const flash = require('express-flash-notification');
 //const cookieParser = require('cookie-parser'); cái này đã có bên trên

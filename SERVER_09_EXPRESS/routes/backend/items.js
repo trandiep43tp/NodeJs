@@ -19,6 +19,7 @@ router.get('(/:status)?', function(req, res, next) {     //(/:status)? đây là
 	let objWhere ={};
 	//lấy trạng thái được nhấn
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'all');
+	console.log(currentStatus)
 	//lấy điều kiện lọc		
 	 objWhere      = (currentStatus === "all" )? {} : {status: currentStatus};
 
@@ -63,11 +64,6 @@ router.get('(/:status)?', function(req, res, next) {     //(/:status)? đây là
 				});
 		    });   
 	})
-
-	
-	
-	
-	
 });
 
 //thay đổi trạng thái status
@@ -96,7 +92,7 @@ router.get('/change-status/:id/:status', function(req, res, next) {
 //change status muti
 router.post('/change-status/:status', function(req, res, next) {
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'active');
-	let items = req.body.cid;
+	let items = req.body.cid;  //cid là tên đặt ở layout
 	
 	ItemModel.updateMany({_id: {$in: items}}, {status: currentStatus}, (err, result)=>{
 		req.flash('success', `Có ${result.n } phần tử cập nhật Status thành công!`, false);
@@ -116,7 +112,7 @@ router.post('/change-ordering/', function(req, res, next) {
 					
 				});   
 			})
-			req.flash('success', `Có ${result.n } phần tử cập nhật ordering thành công!`, false);
+			req.flash('success', `Có ${ids.length} phần tử cập nhật ordering thành công!`, false);
 			res.redirect(link);
 		}else{
 			ItemModel.updateOne({_id: ids}, {ordering: parseInt(ordering)}, (err, result)=>{
@@ -149,9 +145,11 @@ router.post('/delete', function(req, res, next) {
 	})
 	
 });
-
-router.get('/add', function(req, res, next) {
-  res.render('pages/items/add', { title: 'Item Add page' });
+              
+router.get(('/form(/:status/:id)?'), function(req, res, next) {  
+	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'add');
+	console.log(currentStatus)
+  res.render('pages/items/form', { title: 'Item Add page' });
 });
 
 module.exports = router;
