@@ -58,7 +58,7 @@
                     List Items
                 </div>
                 <!-- /.panel-heading -->
-                <div class="panel-body">
+                <div class="panel-body"> 
                     <form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">                       
                         <%- actionHelper('items') %> 
                         <div class="table-responsive">
@@ -83,9 +83,7 @@
                                             <td> <%= index+1 %> </td>
                                             <td> <%=item.name %> </td>
                                             <td>
-                                                 <%- statusHelper('items', item.id, item.status) %>  <!--Cách kéo hàm vào -->
-                                               
-                                                                                                
+                                                 <%- statusHelper('items', item.id, item.status) %>  <!--Cách kéo hàm vào -->                                                                                                                                              
                                             </td>
                                             <td><input type="number" value="<%=item.ordering %>" class="text-center ordering"></td>
                                             <td>

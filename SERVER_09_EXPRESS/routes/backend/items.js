@@ -19,7 +19,7 @@ router.get('(/:status)?', function(req, res, next) {     //(/:status)? đây là
 	let objWhere ={};
 	//lấy trạng thái được nhấn
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'all');
-	console.log(currentStatus)
+	//console.log(currentStatus)
 	//lấy điều kiện lọc		
 	 objWhere      = (currentStatus === "all" )? {} : {status: currentStatus};
 
@@ -92,7 +92,7 @@ router.get('/change-status/:id/:status', function(req, res, next) {
 //change status muti
 router.post('/change-status/:status', function(req, res, next) {
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'active');
-	let items = req.body.cid;  //cid là tên đặt ở layout
+	let items = req.body.cid;  //cid là tên đặt ở ô input bên layout
 	
 	ItemModel.updateMany({_id: {$in: items}}, {status: currentStatus}, (err, result)=>{
 		req.flash('success', `Có ${result.n } phần tử cập nhật Status thành công!`, false);
@@ -101,7 +101,7 @@ router.post('/change-status/:status', function(req, res, next) {
 	
 });
 
-//change odering
+//change ordering
 router.post('/change-ordering/', function(req, res, next) {
 		let ids     = req.body.cid;
 		let ordering = req.body.ordering;
@@ -137,7 +137,7 @@ router.get('/delete/:id', function(req, res, next) {
 
 //delete- muti
 router.post('/delete', function(req, res, next) {	
-	let items = req.body.cid;
+	let items = req.body.cid;    //cid là tên đặt trong ô input
 	
 	ItemModel.deleteMany({_id: {$in: items}}, (err, result)=>{
 		req.flash('success', `Có ${result.n } phần tử xóa thành công!`, false);
@@ -145,12 +145,46 @@ router.post('/delete', function(req, res, next) {
 	})
 	
 });
-              
-router.get(('/form/:status(/:id)?'), function(req, res, next) {  
+			 
+
+//add và Edit
+router.get('/form/:status/:id?', function(req, res, next) {  
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'add');
-	console.log(currentStatus)
-  res.render('pages/items/form', { title: 'Item Add page' });
+	let id 			  = ParamsHelper.getParams(req.params, 'id', '');	
+
+	if(currentStatus == 'add'){
+		let item = {name: '', ordering: 0, status: 'novalue'}
+		res.render('pages/items/form', { title: 'Item Add page', item });
+	}else{
+		ItemModel.findById(id)
+			.then((item)=>{
+				res.render('pages/items/form', { title: 'Item Edit page', item });
+			})
+		
+	}
+  
 });
+
+router.post('/save', function(req, res, next){
+	let id = req.body.id;
+	let item = {
+		name   : req.body.name,
+		status : req.body.status,
+		ordering: parseInt(req.body.ordering) 
+	}
+	if(id !==''){
+		ItemModel.updateOne({_id: id}, item, (err, result)=>{
+			req.flash('success', 'Cập nhật item thành công!', false);
+			res.redirect(link);
+		})
+	}else{
+		var newItem = new ItemModel( item);
+		newItem.save().then((err, result)=>{
+			req.flash('success', 'Thêm item thành công!', false);
+			res.redirect(link);
+		})		
+	}
+})
 
 module.exports = router;
  
