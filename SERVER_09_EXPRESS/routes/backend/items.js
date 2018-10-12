@@ -150,8 +150,23 @@ router.post('/delete', function(req, res, next) {
 	
 });
 
-router.get('/add', function(req, res, next) {
-  res.render('pages/items/add', { title: 'Item Add page' });
+router.get("/form/:status/:id?", function(req, res, next) {
+	let status = ParamsHelper.getParams(req.params, 'status', '');
+	let id = ParamsHelper.getParams(req.params, 'id', '');
+	console.log("status: "+ status);
+	console.log("id: " + id)
+	if(status == 'add'){
+		res.render('pages/items/form', { title: 'Item Add page', item: '' });
+	}else{
+		ItemModel.findById(id)
+			.then((item )=>{
+				res.render('pages/items/form', { 
+					title: 'Item List page',
+					item,					
+				});
+			})		
+	}
+  
 });
 
 module.exports = router;
