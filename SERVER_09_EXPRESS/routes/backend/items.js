@@ -146,7 +146,7 @@ router.post('/delete', function(req, res, next) {
 	
 });
               
-router.get(('/form(/:status/:id)?'), function(req, res, next) {  
+router.get(('/form/:status(/:id)?'), function(req, res, next) {  
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'add');
 	console.log(currentStatus)
   res.render('pages/items/form', { title: 'Item Add page' });
