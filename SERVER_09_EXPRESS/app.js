@@ -5,12 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 //kéo các thứ hãng thứ 3 viêt
-var expressLayouts = require('express-ejs-layouts');
- 
+var expressLayouts = require('express-ejs-layouts'); 
 // hiện thông báo
 const flash = require('express-flash-notification');
 //const cookieParser = require('cookie-parser'); cái này đã có bên trên
 const session = require('express-session');
+
 
 // getting-started.js
 var mongoose = require('mongoose');

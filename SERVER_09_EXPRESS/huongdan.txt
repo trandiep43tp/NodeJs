@@ -28,4 +28,7 @@ cách cài thông báo
 
     có thể xem thêm phần cấu hình nâng cao: thay đổi tên flash, đặt vào thư mục khác
 
+cách validator dữ liệu
+tìm kiếm nodejs express validator ta dược trang: https://www.npmjs.com/package/express-validator
+
   
