@@ -8,8 +8,8 @@ var ItemModel    = require("../../schemas/items");
 var UtilsHelper  = require("../helpers/utils");
 var ParamsHelper = require("../helpers/params");	
 
-var systemConfig = require("../../configs/system");
-var notify       = require("../../configs/notify");
+var systemConfig = require(__path_configs + 'system');
+var notify       = require(__path_configs + 'notify');
 const validate   = require("../../validates/items");
 
 const link = '/'+ systemConfig.prefixAdmin + '/items';

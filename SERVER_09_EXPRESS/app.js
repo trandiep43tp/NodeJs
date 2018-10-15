@@ -21,6 +21,11 @@ db.once('open', ()=> {
   console.log("connected")
 });
 
+//define path để khi trong các file khác ta không phải định lại đường dẫn nữa
+global.__base        = __dirname + '/';
+global.__path_configs = __base + 'configs/'
+console.log(__path_configs)
+
 
 //tìm hiểu về mongoose
 	//định nghĩa 1 kiểu collection
@@ -86,7 +91,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //tạo 1 biến prefixAdmin để thi thoảng ta thay đổi đường dẫn
 app.locals.systemConfig = systemConfig;
-
 
 //khai báo các router- viết trực tiếp
 // app.use('/admin', indexRouter);

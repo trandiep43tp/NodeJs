@@ -1,4 +1,9 @@
 <!-- <h3><%=JSON.stringify(errors) %></h3> -->
+ <!--đây là phần định nghĩa sử dụng cho toàn bộ-->
+ <%
+ const collection = 'items'; 
+ const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`;
+%>
 
 <% include ../../helpers/formErrors %>
 
