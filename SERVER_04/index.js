@@ -39,7 +39,7 @@ io.on("connect", function(socket){                                   //chú ý l
         
     });
 
-});
+}); 
 
 app.get("/", function(req,res){
     res.render("trangchu");
