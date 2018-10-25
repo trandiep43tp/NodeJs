@@ -26,7 +26,7 @@ router.post('/submit', validate.validator(), function(req, res, next) {
 		res.render('index', { errors: errors.array(), item });
 		
 	}else{
-		UserModel.countDocuments( item , function (err, count){ 
+		UserModel.where(item).countDocuments((err, count)=>{ 
 			if(count>0){
 				//khai báo người đăng nhập
 				global.use = item.email;				

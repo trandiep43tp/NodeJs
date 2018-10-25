@@ -8,6 +8,7 @@ var logger = require('morgan');
 var expressLayouts = require('express-ejs-layouts');
 const flash = require('express-flash-notification'); // hiện thông báo
 const session = require('express-session');
+var moment = require('moment');
 
 //kéo các thứ ta viết vào
 var systemConfig = require("./mapp/configs/system");
@@ -45,6 +46,7 @@ app.set('view engine', 'ejs');
 
 //tạo 1 biến prefixAdmin để thi thoảng ta thay đổi đường dẫn
 app.locals.systemConfig = systemConfig;
+app.locals.moment = moment;   
  
 //app.use(logger('dev'));
 app.use(express.json());

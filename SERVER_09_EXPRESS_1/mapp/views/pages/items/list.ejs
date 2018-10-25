@@ -3,7 +3,7 @@
    <% include ../../helpers/action %>
    <% include ../../helpers/status %>  
    <% include ../../helpers/pagination %>
-
+   <% include ../../helpers/source-by %>
 
     <!--đây là phần định nghĩa sử dụng cho toàn bộ-->
    <%
@@ -81,11 +81,14 @@
                                         <th>Status</th>
                                         <!-- <th width="30%">Content</th> -->
                                         <th>Ordering</th>
+                                        <th>Created</th>
+                                        <th>Modified</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>                                   
                                     <% items.forEach((item, index)=>{ %>
+                                       
                                         <tr>
                                             <td><input type="checkbox" name="cid" value="<%=item.id %>" /></td>
                                             <td> <%= index+1 %> </td>
@@ -94,6 +97,12 @@
                                                  <%- statusHelper(collection, item.id, item.status) %>  <!--Cách kéo hàm vào -->                                                                                                                                              
                                             </td>
                                             <td><input type="number" value="<%=item.ordering %>" class="text-center ordering"></td>
+                                            <td>
+                                                <%-sourceByHelper(item.created.user_name, item.created.time) %>                                               
+                                            </td>
+                                            <td>
+                                                <%-sourceByHelper(item.modified.user_name, item.modified.time) %>                                              
+                                            </td>                                                                                      
                                             <td>
                                                 <a href="<%= linkPrefix %>form/edit/<%=item.id%>" type="button" class="btn btn-warning btn-sm">Edit</a>
                                                 <a href="<%= linkPrefix %>delete/<%=item.id%>" type="button" class="btn btn-danger btn-sm btn-delete">Delete </a>

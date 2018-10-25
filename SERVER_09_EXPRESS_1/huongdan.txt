@@ -59,4 +59,8 @@ cách cài thông báo
 cách validator dữ liệu
 tìm kiếm nodejs express validator ta dược trang: https://www.npmjs.com/package/express-validator
 
+cách định dạng thời gian
+sử dụng moment vào http://momentjs.com xem thêm
+    npm install moment
+
    

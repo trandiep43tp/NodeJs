@@ -57,6 +57,7 @@ router.get('(/:status)?',async (req, res, next)=> {     //(/:status)? đây là 
 	//lấy dữ liệu 	
 	ItemModel
 		.find(objWhere)
+		.select('name status ordering created modified')
 		.sort({ordering: 'asc'})  //sắp xếp theo thứ tự
 		.skip((pagination.currentPage - 1)*pagination.totalItemsperPage)   //lấy từ vị trí
 		.limit(pagination.totalItemsperPage)
@@ -78,9 +79,17 @@ router.get('/change-status/:id/:status', function(req, res, next) {
 	
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'active');
 	let id            = ParamsHelper.getParams(req.params, 'id', '');
-	let status = (currentStatus === 'active')? 'inactive' : 'active';	
+	let status = (currentStatus === 'active')? 'inactive' : 'active';
+	let data = {
+		status,
+		modified: {
+            user_id: 0,
+            user_name: 'admin',  
+            time: Date.now()	
+      }
+	}	
 	//update cách 1
-	 ItemModel.updateOne({_id: id}, {status: status}, (err, result)=>{
+	 ItemModel.updateOne({_id: id}, data , (err, result)=>{
 		 req.flash('success', notify.CHANGE_STATUS_SUSCCESS , false); //khi k cần render thì để false
 		 res.redirect(link);
 	 })
@@ -90,9 +99,17 @@ router.get('/change-status/:id/:status', function(req, res, next) {
 //change status muti
 router.post('/change-status/:status', function(req, res, next) {
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'active');
-	let items = req.body.cid;  //cid là tên đặt ở ô input bên layout
+	let ids = req.body.cid;  //cid là tên đặt ở ô input bên layout	
+	let data = {
+		status: currentStatus,
+		modified: {
+            user_id: 0,
+            user_name: 'admin',  
+            time: Date.now()	
+      }
+	}
 	
-	ItemModel.updateMany({_id: {$in: items}}, {status: currentStatus}, (err, result)=>{
+	ItemModel.updateMany({_id: {$in: ids}}, data, (err, result)=>{
 		req.flash('success', util.format(notify.CHANGE_STATUS_MUTI_SUSCCESS, result.n ) , false);
 		res.redirect(link);
 	})
@@ -103,17 +120,33 @@ router.post('/change-status/:status', function(req, res, next) {
 router.post('/change-ordering/', function(req, res, next) {
 		let ids     = req.body.cid;
 		let ordering = req.body.ordering;
-		
+		console.log(ids)
 		if(Array.isArray(ids)){
 			ids.forEach( (id, index) =>{
-				ItemModel.updateOne({_id: id}, {ordering: parseInt(ordering[index])}, (err, result)=>{
+				let data = {
+					ordering: parseInt(ordering[index]),
+					modified: {
+						user_id: 0,
+						user_name: 'admin',  
+						time: Date.now()	
+				  }
+				}
+				ItemModel.updateOne({_id: id}, data, (err, result)=>{
 					
 				});   
 			})
 			req.flash('success', util.format( notify.CHANGE_ORDERING_MUTI_SUSCCESS,ids.length ), false);
 			res.redirect(link);
 		}else{
-			ItemModel.updateOne({_id: ids}, {ordering: parseInt(ordering)}, (err, result)=>{
+			let data = {
+				ordering: parseInt(ordering),
+				modified: {
+					user_id: 0,
+					user_name: 'admin',  
+					time: Date.now()	
+			  }
+			}
+			ItemModel.updateOne({_id: ids}, data, (err, result)=>{
 				req.flash('success', notify.CHANGE_ORDERING_SUSCCESS, false);
 				res.redirect(link);
 			})
@@ -178,6 +211,11 @@ router.post('/save',validate.validator(),function(req, res, next){
 			});
 			
 		}else{
+			item.modified ={
+				user_id: 0,
+				user_name: "admin",
+				time : Date.now()
+			}
 			ItemModel.updateOne({_id: item.id}, item, (err, result)=>{
 				if(err) console.log(err);
 				req.flash('success', notify.CHANGE_ITEM_SUSCCESS, false);
