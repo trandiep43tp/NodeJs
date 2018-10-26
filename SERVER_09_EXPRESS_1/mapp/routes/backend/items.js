@@ -38,6 +38,11 @@ router.get('(/:status)?',async (req, res, next)=> {     //(/:status)? đây là 
 	//in ra các trạng thái filter	
 	let statusFilter  = await UtilsHelper.createFilterStatus(currentStatus);
 
+	//lấy các điều kiện sort
+	let sort_field = ParamsHelper.getParams(req.session, 'sort_field', 'ordering');
+	let sort_type  = ParamsHelper.getParams(req.session, 'sort_type', 'desc');
+	let sort = {};
+		sort[sort_field] = sort_type;
 	//phân trang
 	let pagination ={
 		totalItems : 0,
@@ -58,7 +63,7 @@ router.get('(/:status)?',async (req, res, next)=> {     //(/:status)? đây là 
 	ItemModel
 		.find(objWhere)
 		.select('name status ordering created modified')
-		.sort({ordering: 'asc'})  //sắp xếp theo thứ tự
+		.sort(sort)  //sắp xếp theo thứ tự
 		.skip((pagination.currentPage - 1)*pagination.totalItemsperPage)   //lấy từ vị trí
 		.limit(pagination.totalItemsperPage)
 		.then((items)=> {
@@ -247,5 +252,16 @@ router.post('/save',validate.validator(),function(req, res, next){
 	}
 })
 
+//SORT
+router.get('/sort/:sort_field/:sort_type', function(req, res, next) {  
+
+	let sort_field = ParamsHelper.getParams(req.params, 'sort_field', 'ordering');
+	let sort_type = ParamsHelper.getParams(req.params, 'sort_type', 'asc');
+
+	//lưu vào trong session
+	req.session.sort_field = sort_field;
+	req.session.sort_type = sort_type;
+	res.redirect(link);
+});
 module.exports = router;
  
