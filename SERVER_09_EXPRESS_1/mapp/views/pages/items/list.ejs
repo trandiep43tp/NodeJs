@@ -4,7 +4,7 @@
    <% include ../../helpers/status %>  
    <% include ../../helpers/pagination %>
    <% include ../../helpers/source-by %>
-
+   <% include ../../helpers/sort %>
     <!--đây là phần định nghĩa sử dụng cho toàn bộ-->
    <%
         const collection = 'items';
@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="status-list col-sm-6 pl0">
                             <!--Kéo hàm vào-->                            
-                               <% filterstatusHelper(collection, statusFilter, query) %> 
+                               <%- filterstatusHelper(linkPrefix, statusFilter, query) %> 
                             <!--cách viết trực tiếp-->
                             <!-- <% statusFilter.forEach((status, index)=>{ %>  statusFilter là biến được truyền từ roundter
                                 <a class="btn m-b-sm btn-<%=status.class %> btn-sm" href="<%= status.link %>">
@@ -68,7 +68,7 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body"> 
                     <form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">                       
-                        <%- actionHelper(collection) %> 
+                        <%- actionHelper(linkPrefix) %> 
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -77,22 +77,10 @@
                                             <input type="checkbox" class="cbAll" >
                                         </th>
                                         <th>#</th>
-                                        <th class="text-center ">
-                                            <a href="<%= linkPrefix %>sort/name/desc" class="title_col">Name                                     
-                                                 <i class="fa fa-fw fa-sort-asc"></i>
-                                            </a>     
-                                        </th>
-                                        <th class="text-center pointer">
-                                            <a href="#" class="title_col">Status                                     
-                                                <i class="fa fa-fw fa-sort"></i>
-                                            </a>     
-                                        </th>                                        
-                                        <!-- <th width="30%">Content</th> -->
-                                        <th class="text-center pointer">
-                                            <a href="<%= linkPrefix %>sort/ordering/asc" class="title_col">Ordering                                     
-                                                <i class="fa fa-fw fa-sort-desc"></i>
-                                            </a>     
-                                        </th>                                       
+                                        <%- sortHelper(linkPrefix, 'Name', 'name', sort_field, sort_type, 'width: 20%;color:red') %> 
+                                        <%- sortHelper(linkPrefix, 'Status', 'status', sort_field, sort_type) %> 
+                                        <%- sortHelper(linkPrefix, 'Ordering', 'ordering', sort_field, sort_type) %> 
+                                                                          
                                         <th>Created</th>
                                         <th>Modified</th>
                                         <th>Action</th>
@@ -106,7 +94,7 @@
                                             <td> <%= index+1 %> </td>
                                             <td> <%=item.name %> </td>
                                             <td>
-                                                 <%- statusHelper(collection, item.id, item.status) %>  <!--Cách kéo hàm vào -->                                                                                                                                              
+                                                 <%- statusHelper(linkPrefix, item.id, item.status) %>  <!--Cách kéo hàm vào -->                                                                                                                                              
                                             </td>
                                             <td><input type="number" value="<%=item.ordering %>" class="text-center ordering"></td>
                                             <td>
@@ -129,7 +117,7 @@
             </div>
         </div>
         <div class="col-lg-12">           
-            <%- paginationHelper(collection, pagination, currentStatus, query) %> 
+            <%- paginationHelper(linkPrefix, pagination, currentStatus, query) %> 
             
         </div>
     </div>

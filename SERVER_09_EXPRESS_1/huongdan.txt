@@ -1,3 +1,8 @@
+Ctrl + k + 0 đóng hết lại
+Ctrl + k + j mở hết ra
+
+
+
 Thiết lập ban đầu
     . Vào thư mục để chứa source code. Vào trang web expressjs.com và vào express generator để xem hướng dẫn
         Cách cài: npm install express-generator -g

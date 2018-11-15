@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
+const databaseConfig = require(__path_configs +'database');
 
 var schema = new mongoose.Schema({
      name: String,
       status: String, 
       ordering: Number,
+      content: String,
       created: {
             user_id: Number,
             user_name: String,
@@ -16,4 +18,4 @@ var schema = new mongoose.Schema({
       }
 });
 
-module.exports = mongoose.model("items", schema)
+module.exports = mongoose.model(databaseConfig.col_item, schema)

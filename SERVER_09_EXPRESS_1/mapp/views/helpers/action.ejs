@@ -1,6 +1,6 @@
 
  <% 
-    actionHelper = (collection ) =>{ 
+    actionHelper = (linkPrefix ) =>{ 
         let actions =[
             {value: "",                       name: "Bulk Action"},
             {value: "change-status/active",   name: "Active"},
@@ -8,9 +8,9 @@
             {value: "change-ordering",        name: "Change Ordering"},
             {value: "delete/",                name: "Delete"}
         ];
-
+ 
         let xhtml = '';
-        let linkAddNew = systemConfig.prefixAdmin +'/'+ collection + '/form/add';
+        let linkAddNew = linkPrefix + 'form/add';
 
         actions.forEach((action, index)=>{
             let link = systemConfig.prefixAdmin + '/' + collection + '/' + action.value;

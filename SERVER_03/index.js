@@ -7,7 +7,7 @@ app.listen(3333,console.log("Ket noi thanh cong"));
 app.get("/hello", function(req,res){
 	res.send("Day la server");
 	});
-	
+	 
 //get có tham so
 app.get("/hello/:x/:y", function(req,res){
 	//lấy giá trị x, y
@@ -21,7 +21,7 @@ app.post("/hello", function(req, res){
 	res.send("Day la phuong thuc post");
 	});
 //post có tham so 
-
+ 
 //cài module bodyparser
  var bodyParser = require('body-parser');
  //var bodyparser=require("body-parser").json();
@@ -66,7 +66,7 @@ app.post("/form",bodyparser,function(req,res){
 		destination:function(req,file,cb){  //biến cb là để kiểm tra xem có chấp nhận lưu trữ file hay k
 			 cb(null,"./upload")
 			 },
-		filename: function(req,file,cb){  
+		filename: function(req, file, cb){  
 			cb(null, file.originalname) 
 		}
 	})

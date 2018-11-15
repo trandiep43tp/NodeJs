@@ -4,15 +4,15 @@ const util = require('util');    //đây là thư viện của nodejs
 
 const { check, validationResult } = require('express-validator/check');
 
-var ItemModel    = require("../../schemas/items");
-var UtilsHelper  = require("../helpers/utils");
-var ParamsHelper = require("../helpers/params");	
-
-var systemConfig = require(__path_configs + 'system');
-var notify       = require(__path_configs + 'notify');
-const validate   = require("../../validates/items");
-
-const link = '/'+ systemConfig.prefixAdmin + '/items';
+const ItemModel    = require(__path_schemas   + 'items');
+const ItemModels   = require(_path_models     + 'items');
+const UtilsHelper  = require(__path_helpers   + 'utils');
+const ParamsHelper = require(__path_helpers   + 'params');
+const systemConfig = require(__path_configs   + 'system');
+const notify       = require(__path_configs   + 'notify');
+const validateItems = require(__path_validates + 'items');
+const link         = '/'+ systemConfig.prefixAdmin + '/items';
+const folderView   = __path_views + 'pages/items/';
 
   
 
@@ -36,11 +36,12 @@ router.get('(/:status)?',async (req, res, next)=> {     //(/:status)? đây là 
 		objWhere.name = new RegExp(query, 'i');   //RegExp(query, 'i') tìm kiếm không phân biệt các chữ hoa, thường
 	}
 	//in ra các trạng thái filter	
-	let statusFilter  = await UtilsHelper.createFilterStatus(currentStatus);
+	let statusFilter  = await UtilsHelper.createFilterStatus(currentStatus, 'items');
 
 	//lấy các điều kiện sort
 	let sort_field = ParamsHelper.getParams(req.session, 'sort_field', 'ordering');
-	let sort_type  = ParamsHelper.getParams(req.session, 'sort_type', 'desc');
+	let sort_type  = ParamsHelper.getParams(req.session, 'sort_type', 'asc');
+	
 	let sort = {};
 		sort[sort_field] = sort_type;
 	//phân trang
@@ -55,7 +56,7 @@ router.get('(/:status)?',async (req, res, next)=> {     //(/:status)? đây là 
 	pagination.currentPage =  parseInt(ParamsHelper.getParams(req.query, 'page', 1));
 
 	//đếm tỏng số bản ghi
-	await ItemModel.count(objWhere).then((data)=>{
+	await ItemModel.countDocuments(objWhere).then((data)=>{
 			pagination.totalItems = data;		  
 		 })
 	
@@ -67,13 +68,15 @@ router.get('(/:status)?',async (req, res, next)=> {     //(/:status)? đây là 
 		.skip((pagination.currentPage - 1)*pagination.totalItemsperPage)   //lấy từ vị trí
 		.limit(pagination.totalItemsperPage)
 		.then((items)=> {
-			res.render('pages/items/list', { 
+			res.render(folderView + 'list', { 
 				title: 'Item List page',
 				items,
 				statusFilter,
 				currentStatus,
 				query,
-				pagination		
+				pagination,
+				sort_field,
+				sort_type		
 			});
 		}); 
 
@@ -84,19 +87,25 @@ router.get('/change-status/:id/:status', function(req, res, next) {
 	
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'active');
 	let id            = ParamsHelper.getParams(req.params, 'id', '');
-	let status = (currentStatus === 'active')? 'inactive' : 'active';
-	let data = {
-		status,
-		modified: {
-            user_id: 0,
-            user_name: 'admin',  
-            time: Date.now()	
-      }
-	}	
-	//update cách 1
-	 ItemModel.updateOne({_id: id}, data , (err, result)=>{
-		 req.flash('success', notify.CHANGE_STATUS_SUSCCESS , false); //khi k cần render thì để false
-		 res.redirect(link);
+	//let status = (currentStatus === 'active')? 'inactive' : 'active';
+	// let data = {
+	// 	status,
+	// 	modified: {
+    //         user_id: 0,
+    //         user_name: 'admin',  
+    //         time: Date.now()	
+    //   }
+	// }	
+	// //update cách 1
+	//  ItemModel.updateOne({_id: id}, data , (err, result)=>{
+	// 	 req.flash('success', notify.CHANGE_STATUS_SUSCCESS , false); //khi k cần render thì để false
+	// 	 res.redirect(link);
+	//  })
+
+	 //cách 2 gọi từ models
+	 ItemModels.changeStatus(id, currentStatus).then((result)=>{
+		req.flash('success', notify.CHANGE_STATUS_SUSCCESS , false); //khi k cần render thì để false
+		res.redirect(link);
 	 })
 });
 
@@ -105,57 +114,67 @@ router.get('/change-status/:id/:status', function(req, res, next) {
 router.post('/change-status/:status', function(req, res, next) {
 	let currentStatus = ParamsHelper.getParams(req.params, 'status', 'active');
 	let ids = req.body.cid;  //cid là tên đặt ở ô input bên layout	
-	let data = {
-		status: currentStatus,
-		modified: {
-            user_id: 0,
-            user_name: 'admin',  
-            time: Date.now()	
-      }
-	}
+	// let data = {
+	// 	status: currentStatus,
+	// 	modified: {
+    //         user_id: 0,
+    //         user_name: 'admin',  
+    //         time: Date.now()	
+    //   }
+	// }
 	
-	ItemModel.updateMany({_id: {$in: ids}}, data, (err, result)=>{
+	// ItemModel.updateMany({_id: {$in: ids}}, data, (err, result)=>{
+	// 	req.flash('success', util.format(notify.CHANGE_STATUS_MUTI_SUSCCESS, result.n ) , false);
+	// 	res.redirect(link);
+	// })
+	//cách 2 xử lý bên models
+	ItemModels.changeStatus(ids, currentStatus, 'muti').then((result)=>{
 		req.flash('success', util.format(notify.CHANGE_STATUS_MUTI_SUSCCESS, result.n ) , false);
 		res.redirect(link);
 	})
-	
 });
 
 //change ordering
 router.post('/change-ordering/', function(req, res, next) {
 		let ids     = req.body.cid;
 		let ordering = req.body.ordering;
-		console.log(ids)
-		if(Array.isArray(ids)){
-			ids.forEach( (id, index) =>{
-				let data = {
-					ordering: parseInt(ordering[index]),
-					modified: {
-						user_id: 0,
-						user_name: 'admin',  
-						time: Date.now()	
-				  }
-				}
-				ItemModel.updateOne({_id: id}, data, (err, result)=>{
-					
-				});   
-			})
-			req.flash('success', util.format( notify.CHANGE_ORDERING_MUTI_SUSCCESS,ids.length ), false);
+
+		ItemModels.changeOrdering(ids, ordering).then((result)=>{
+			req.flash('success', notify.CHANGE_ORDERING_SUSCCESS, false);
 			res.redirect(link);
-		}else{
-			let data = {
-				ordering: parseInt(ordering),
-				modified: {
-					user_id: 0,
-					user_name: 'admin',  
-					time: Date.now()	
-			  }
-			}
-			ItemModel.updateOne({_id: ids}, data, (err, result)=>{
-				req.flash('success', notify.CHANGE_ORDERING_SUSCCESS, false);
-				res.redirect(link);
-			})
-		}
+		})
+		
+		// if(Array.isArray(ids)){
+		// 	ids.forEach( (id, index) =>{
+		// 		let data = {
+		// 			ordering: parseInt(ordering[index]),
+		// 			modified: {
+		// 				user_id: 0,
+		// 				user_name: 'admin',  
+		// 				time: Date.now()	
+		// 		  }
+		// 		}
+		// 		ItemModel.updateOne({_id: id}, data, (err, result)=>{
+					
+		// 		});   
+		// 	})
+		// 	req.flash('success', util.format( notify.CHANGE_ORDERING_MUTI_SUSCCESS,ids.length ), false);
+		// 	res.redirect(link);
+		// }else{
+		// 	let data = {
+		// 		ordering: parseInt(ordering),
+		// 		modified: {
+		// 			user_id: 0,
+		// 			user_name: 'admin',  
+		// 			time: Date.now()	
+		// 	  }
+		// 	}
+		// 	ItemModel.updateOne({_id: ids}, data, (err, result)=>{
+		// 		req.flash('success', notify.CHANGE_ORDERING_SUSCCESS, false);
+		// 		res.redirect(link);
+		// 	})
+		// }
+		
 	
 	
 });
@@ -173,9 +192,9 @@ router.get('/delete/:id', function(req, res, next) {
 
 //delete- muti
 router.post('/delete', function(req, res, next) {	
-	let items = req.body.cid;    //cid là tên đặt trong ô input
+	let ids = req.body.cid;    //cid là tên đặt trong ô input
 	
-	ItemModel.deleteMany({_id: {$in: items}}, (err, result)=>{
+	ItemModel.deleteMany({_id: {$in: ids}}, (err, result)=>{
 		req.flash('success', util.format( notify.DELETE_MUTI_SUSCCESS, result.n ), false);
 		res.redirect(link);
 	})
@@ -189,12 +208,12 @@ router.get('/form/:status/:id?', function(req, res, next) {
 	let id 			  = ParamsHelper.getParams(req.params, 'id', '');	
 	let errors        = [];
 	if(currentStatus == 'add'){
-		let item = {name: '', ordering: 0, status: 'novalue'}			
-		res.render('pages/items/form', { title: 'Item Add page', item, errors });
+		let item = {name: '', ordering: 0, status: 'novalue', content: ''}			
+		res.render(folderView +'form', { title: 'Item Add page', item, errors });
 	}else{
 		ItemModel.findById(id)
 			.then((item)=>{
-				res.render('pages/items/form', { title: 'Item Edit page', item, errors });
+				res.render(folderView +'form', { title: 'Item Edit page', item, errors });
 			})
 		
 	}
@@ -202,14 +221,21 @@ router.get('/form/:status/:id?', function(req, res, next) {
 });
 
 //validate.validator() là modun mình tự viết
-router.post('/save',validate.validator(),function(req, res, next){
+router.post('/save',validateItems.validator(),function(req, res, next){
 	const errors = validationResult(req);
-	const item       = Object.assign(req.body);  //lấy lại các thứ gửi lên
-	
+	const itemEdit       = Object.assign(req.body);  //lấy lại các thứ gửi lên
+	const item = {
+		id: itemEdit.id,
+		name: itemEdit.name, 
+		ordering: parseInt(itemEdit.ordering), 
+		status: itemEdit.status, 
+		content: itemEdit.content
+	};
+	//console.log(item)
 	//console.log(errors.array())
 	if(item.id !==''){  //edit
 		if (!errors.isEmpty()) { 		
-			res.render('pages/items/form', { 
+			res.render(folderView +'form', { 
 				title: 'Item Edit page',
 				item,
 				errors: errors.array()				
@@ -230,7 +256,7 @@ router.post('/save',validate.validator(),function(req, res, next){
 
 	}else{ //add
 		if (!errors.isEmpty()) { 		
-			res.render('pages/items/form', { 
+			res.render(folderView +'form', { 
 				title: 'Item Add page',
 				item,
 				errors: errors.array()				

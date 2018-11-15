@@ -1,5 +1,5 @@
 
- <% paginationHelper = (type, pagination, currentStatus, query) =>{
+ <% paginationHelper = (linkPrefix, pagination, currentStatus, query) =>{
 
     let totalItems        = pagination.totalItems;
     let totalItemsperPage = pagination.totalItemsperPage;
@@ -9,7 +9,7 @@
     let toItem            = ((fromItem + totalItemsperPage -1)>=totalItems)? totalItems :(fromItem + totalItemsperPage -1) ;
     let pageRanges        = pagination.pageRanges;
 
-    let link = systemConfig.prefixAdmin +'/'+ type + '/' + currentStatus;
+    let link = linkPrefix + currentStatus;
     if(query !== ''){
         link += '?search='+ query + '&page=';
     }else{

@@ -10,5 +10,7 @@
     DELETE_MUTI_SUSCCESS         : 'Xóa %d phần tử thành công!',
     CHANGE_ITEM_SUSCCESS         : 'Cập nhật item thành công!',
 
+    CHANGE_GROUP_SUSCCESS        : 'Thay đổi group thành công!',
+
     ERROR_NAME                   : 'Phải khác rỗng và phải tử %d đến %d ký tự'
  };

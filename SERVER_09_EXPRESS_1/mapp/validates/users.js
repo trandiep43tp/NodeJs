@@ -5,16 +5,32 @@ const util = require('util');    //đây là thư viện của nodejs vào https
 var notify = require("../configs/notify");
 
 const option = {	
-	password: {min: 1, max: 100},	
+	name    : { min: 1, max: 18 },
+	ordering: {min: 1, max: 100},
+	status  : ['novalue'],
+	group   : ['novalue'],
+	content : {min: 1, max: 100},
 }
-
+ 
 
 module.exports = {
 	validator: () =>{
 		return [
-			check('email','Email chưa đúng!').isEmail(),
-			check('password','Phải từ 5 ký tự!').isLength({min: 5})
+			 check('name',util.format(notify.ERROR_NAME, option.name.min, option.name.max)).isLength({min: option.name.min, max: option.name.max}),
+			//ORDERING
+			 check('ordering','Phai la so lon hon 0').isInt({gt: 0, lt: 100}),
+			//NAME
+			// req.checkBody('name',util.format(notify.ERROR_NAME, option.name.min, option.name.max)).isLength({min: option.name.min, max: option.name.max}),
+			// //ORDERING
+			// req.checkBody('ordering','Phai la so lon hon 0').isInt({gt: 0, lt: 100}),
+			// //STATUS
+			// req.checkBody('status', 'Chọn một trạng thái').not().isIn(option.status),
+			// //GROUP
+			// req.checkBody('group_id', 'Chọn một trạng thái').not().isIn(option.group),
+			// //CONTENT
+			// req.checkBody('content',util.format(notify.ERROR_NAME, option.content.min, option.content.max)).isLength({min: option.content.min, max: option.content.max})
 			
+		
 		]			
 	}
 };

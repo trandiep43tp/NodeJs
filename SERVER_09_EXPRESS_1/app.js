@@ -3,12 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+ 
 //kéo các thứ hãng thứ 3 viêt
 var expressLayouts = require('express-ejs-layouts');
-const flash = require('express-flash-notification'); // hiện thông báo
-const session = require('express-session');
-var moment = require('moment');
+ const flash        = require('express-flash-notification'); // hiện thông báo
+const validator    = require('express-validator');
+const session      = require('express-session');
+var moment         = require('moment');
 
 //kéo các thứ ta viết vào
 var systemConfig = require("./mapp/configs/system");
@@ -23,9 +24,17 @@ db.once('open', ()=> {
 });
 
 //define path để khi trong các file khác ta không phải định lại đường dẫn nữa
-global.__base        = __dirname + '/';
-global.__mapp          = __base + 'mapp/';
-global.__path_configs = __mapp+ 'configs/';
+//ta có thể khai báo 1 tập tin path định nghĩa các thư mục sau đó kéo vào
+global.__base           = __dirname + '/';
+global.__mapp           = __base + 'mapp/';
+global.__path_configs   = __mapp + 'configs/';
+global.__path_validates = __mapp + 'validates/';
+global.__path_views     = __mapp + 'views/';
+global.__path_schemas   = __mapp + 'schemas/';
+global.__path_helpers   = __mapp + 'routes/helpers/';
+global._path_models     = __mapp + 'models/';
+global._path_public     = __base + 'public/';
+global._path_uploads    = _path_public + 'uploads/';
 global.use = 'diep';
 
 
@@ -39,6 +48,15 @@ app.use(session({
     saveUninitialized: true,   
 }));
 app.use(flash(app));
+ //khai báo sử dụng validator
+app.use(validator({     //ta có thể custom validator
+    customValidators : {
+        isNotEqual: (value1, value2)=>{
+            return value1 != value2;
+        }
+    }
+})); 
+
 
 // view engine setup
 app.set('views', path.join(__mapp, 'views'));
@@ -55,7 +73,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //khai báo các router
-app.use(`(/${systemConfig.prefixAdmin})?`, require(__mapp +'routes/backend/home'));
+//app.use(`(/${systemConfig.prefixAdmin})?`, require(__mapp +'routes/backend/home'));
  
 //thiêt lập layout được cài vào
 app.use(expressLayouts);     

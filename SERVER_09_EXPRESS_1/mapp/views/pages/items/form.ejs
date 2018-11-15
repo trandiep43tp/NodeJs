@@ -1,4 +1,4 @@
-<!-- <h3><%=JSON.stringify(errors) %></h3> -->
+<h3><%=JSON.stringify(item.id) %></h3>
  <!--đây là phần định nghĩa sử dụng cho toàn bộ-->
  <%
  const collection = 'items'; 
@@ -21,7 +21,7 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <form role="form" action="<%= systemConfig.prefixAdmin %>/items/save" method="POST">                   
+                <form role="form" action="<%= linkPrefix %>save" method="POST">                   
                     <input class="form-control hidden" name="id" value="<%=item.id %>" >                    
                     <div class="form-group">
                         <label>Name</label>
@@ -39,13 +39,17 @@
                             <option value="inactive" <%= (item.status == 'inactive') ? 'selected = "selected"': '' %> > Inactive</option>
                         </select>
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label>Content</label>
-                        <textarea class="form-control" name="content" rows="2"  id="content_ck" ></textarea>
-                    </div> -->                   
+                        <textarea class="form-control" name="content" rows="2"  id="content_ck123" ><%=item.content %></textarea>
+                    </div>                   
                     <button type="submit" class="btn btn-primary">Submit </button>
-                    <a type="button" href="<%= systemConfig.prefixAdmin %>/items/all" class="btn btn-default">Cancel</a>
+                    <a type="button" href="<%= linkPrefix %>all" class="btn btn-default">Cancel</a>
                 </form>
             </div>
         </div>
     </div> 
+
+    <script>
+        CKEDITOR.replace( 'content_ck123' );
+    </script>

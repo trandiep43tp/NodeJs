@@ -58,3 +58,7 @@ div.fixed {
     top: 120px;     
     border: 1px ;
 }
+
+input.ordering {
+    width: 70px;
+}

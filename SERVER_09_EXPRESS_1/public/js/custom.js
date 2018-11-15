@@ -1,3 +1,35 @@
+
+//create slug input
+function to_slug(str)
+{
+    // Chuyển hết sang chữ thường
+    str = str.toLowerCase();     
+ 
+    // xóa dấu
+    str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+    str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+    str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+    str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+    str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+    str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+    str = str.replace(/(đ)/g, 'd');
+ 
+    // Xóa ký tự đặc biệt
+    str = str.replace(/([^0-9a-z-\s])/g, '');
+ 
+    // Xóa khoảng trắng thay bằng ký tự -
+    str = str.replace(/(\s+)/g, '-');
+ 
+    // xóa phần dự - ở đầu
+    str = str.replace(/^-+/g, '');
+ 
+    // xóa phần dư - ở cuối
+    str = str.replace(/-+$/g, '');
+ 
+    // return
+    return str;
+}
+
 $(document).ready(function () {
     var ckbAll = $(".cbAll");
     var fmAdmin = $("#zt-form");
@@ -44,6 +76,24 @@ $(document).ready(function () {
         if (!confirm("Bạn muốn xóa không?")) return false;
     });
 
+    //SELECT trong form user được chọn
+    $('select[name="group_id"]').change(function(){
+        var group_name = $(this).find('option:selected').text();    //lấy tên khi thay đổi select       
+        $("input[name='group_name']").val(group_name)               //gán vào cho thẻ input có name = group_name
+       
+    });
+
+     //SELECT trong list user được chọn
+     $('select[name="select_box_group"]').change(function(){
+        //phân tách đường dẫn url thành 1 mảng
+        var path = window.location.pathname.split("/");
+        var linkRedirect = '/' + path[1] + '/' + path[2];
+        
+        linkRedirect += '/filter-group/' + $(this).val(); 
+            window.location.pathname = linkRedirect;        
+    });
+   
+   
     //active menu function
     function activeMenu() {
         var arrPathname = window.location.pathname.split('/');
@@ -126,4 +176,8 @@ $(document).ready(function () {
             $(this).parent().css({'display':'none'});
         })    
     }
+
+    $('input#name_slug').keyup(function(){
+        $('input[name="slug"]').val(to_slug($(this).val()));
+    });
 });
